@@ -1,0 +1,37 @@
+<h1 class="title animated jackInTheBox ">{{title}}</h1>
+<p class="text-center"><small *ngIf="todos.length ==0">Sem tarefas para fazer!!!</small></p>
+<div id="modal" *ngIf="mode=='add'" class="animated flipInX">
+  <h1 class="text-center">Nova tarefa</h1>
+  <form [formGroup]="form">
+  
+    <label>Tarefas:</label>
+    <input type= 'text' placeholder="Título da tarefa" maxlength="60" formControlName="title">      
+    <small class="danger" *ngIf = "form.controls.title.invalid && !form.controls.title.pristine">
+         Minimo de 3a 60 caracteres<br>
+    </small>
+    <p class="text-center">
+    <button class ="button" [disabled]="form.invalid" (click)="add()"><i class="fas fa-save"></i> Salvar</button>
+    </p>
+</form>
+<br><br>
+</div>
+<ul class="animated flipInX" *ngIf="mode=='list'">
+  <li *ngFor= "let todo of todos" >{{todo.date}} {{todo.title}} 
+    <button (click) = "remove(todo)"><i class="fas fa-trash-alt"></i></button>
+    <button *ngIf = "!todo.done" (click) = "MakeTodo(todo)"><i class="far fa-check-circle"></i></button> 
+    <button *ngIf = "todo.done" (click) = "MakeTodo(todo)"><i class="fas fa-check-circle"></i></button> 
+  </li>
+</ul>
+<div>  
+  <ul class="animated flipInX" *ngIf="mode=='list'">
+    <li *ngFor= "let todo of todoDone" ><del>{{todo.date}}  {{todo.title}}</del> </li>
+  </ul>
+</div>
+<button class="add-button animated fadeInUp button" (click)="changeMode('add')" *ngIf="mode=='list'">
+  <i class="fas fa-plus-circle"></i>
+  Nova tarefa
+</button>
+<button class="add-button animated fadeInUp button" (click)="changeMode('add')" *ngIf="mode=='add'">
+  <i class="fas fa-times"></i>
+  Cancelar
+</button>
